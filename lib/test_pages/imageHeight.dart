@@ -1,8 +1,6 @@
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_experience/Insta/detailsPost.dart';
 
 class ImageHeight extends StatefulWidget{
@@ -45,7 +43,7 @@ class _ImageHeight extends State<ImageHeight> {
           
           var aspect = snapshot.data.height/snapshot.data.width;
                         
-          var height = (snapshot.data.height-distWidth*aspect)* ((scWidth)/snapshot.data.width);
+          var height = (snapshot.data.height-(distWidth*aspect))* ((scWidth)/snapshot.data.width);
 
           return DetailsPost(url, height, distWidth);
         } 

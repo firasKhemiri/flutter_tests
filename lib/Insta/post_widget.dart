@@ -167,7 +167,7 @@ class _PostWidgetState extends State<PostWidget> {
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         child:ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
-                          child: Image.asset(
+                          child: Image.asset( 
                             url,
                             fit: BoxFit.fitWidth,
                             width: MediaQuery.of(context).size.width,

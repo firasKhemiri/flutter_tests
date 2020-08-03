@@ -28,16 +28,78 @@ class _DetailsPost extends State<DetailsPost> {
                   pinned: true,
                   delegate: MyDynamicHeader(url: this.widget.url, height: this.widget.height, minImgWidth: this.widget.distWidth),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return Container(
+                // SliverList(
+                //   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                //     return Container(
 
-                      height: 200,
-                      color: Color(Random().nextInt(0xffffffff)),
+                //       height: 200,
+                //       color: Color(Random().nextInt(0xffffffff)),
                       
-                    );
-                  },)
-                )
+                //     );
+                //   },)
+                // )
+
+
+                SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 1000,
+                      child: Container(
+                        color: Colors.black,
+
+                        child: Column(
+                          children: <Widget>[
+
+                            Container(
+                              height: 200,
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                              ),
+
+                              child: Column(children: <Widget>[
+                                Row(children: <Widget>[
+                                  Text("data")
+                                ],),
+                                Row(children: <Widget>[
+                                  Text("data")
+                                ],),
+                                
+                              ],),
+                            ),
+
+                            Container(
+                              height: 200,
+                              margin: EdgeInsets.all(10),
+                              
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                              ),
+
+                              child: Column(children: <Widget>[
+                                Row(children: <Widget>[
+                                  Text("data")
+                                ],),
+                                Row(children: <Widget>[
+                                  Text("data")
+                                ],),
+                                
+                              ],),
+                            ),
+
+
+
+
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                
+
               ],
             )
         )
@@ -69,7 +131,7 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
           final double percentage = (constraints.maxHeight - minExtent)/(maxExtent - minExtent);
 
           // Change this value to change when the image overlaps with header
-          final limit = maxExtent - 155;
+          final limit = maxExtent - (200-height/10);
           final scrollDist = constraints.maxHeight - minExtent;
 
 
@@ -77,27 +139,28 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
             index = 0;
 
           return Container(
-
-            decoration: BoxDecoration(
-              boxShadow: [BoxShadow(blurRadius: 4.0, color: Colors.black45)],
-              gradient: LinearGradient(
-                colors: [Colors.blue, color]
-              ),
-                
-              borderRadius: lerp(BorderRadius.zero, 
-                BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
-                  topLeft: Radius.zero,
-                  topRight: Radius.zero,
-                ), 
-                percentage
-              ),
-            ),
+            child: Container(
+              color: Colors.black,
+              child: Container(
+                  
+                decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(blurRadius: 4.0, color: Colors.black45)],
+                  gradient: LinearGradient(
+                    colors: [Colors.blue, color]
+                  ),
+                    
+                  borderRadius: lerp(BorderRadius.zero, 
+                    BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                      topLeft: Radius.zero,
+                      topRight: Radius.zero,
+                    ), 
+                    percentage
+                  ),
+                ),
           
-            child: SafeArea(
-
-                child: Center(
+                child: SafeArea(
                   
                   child: Stack(
                     children: <Widget>[
@@ -107,15 +170,19 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
                         child:Container(
                           margin: EdgeInsets.only(bottom: 0),
                           child:ClipRRect(
-                            borderRadius: lerp(BorderRadius.zero, BorderRadius.circular(25), percentage, topOffset: 5),
-                            child: Image.network(
-                              url,
-                              fit: BoxFit.fitWidth,
+                            borderRadius: lerp(BorderRadius.zero, BorderRadius.circular(25), percentage, topOffset: 100),
+                            child: Opacity(
 
-                              width: scrollDist <= limit 
-                              ? scWidth 
-                              : (((scrollDist-maxExtent)*(scWidth-(scWidth-minImgWidth)))/(limit-maxExtent))+(scWidth-minImgWidth)
-                              
+                            opacity: percentage,
+                              child: Image.network(
+                                url,
+                                fit: BoxFit.fitWidth,
+
+                                width: scrollDist <= limit 
+                                ? scWidth 
+                                : (((scrollDist-maxExtent)*(scWidth-(scWidth-minImgWidth)))/(limit-maxExtent))+(scWidth-minImgWidth)
+                                
+                              )
                             )
                           )
                         )
@@ -131,7 +198,7 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
                         width: scWidth,
                         
                         // Change this value to change social bar postition
-                        top: this.height-5 - ((maxExtent-constraints.maxHeight)/2.5),
+                        top: (this.height-5) - ((maxExtent-constraints.maxHeight)/2.5),
                         
                         child:Center(
                           child: Opacity(
@@ -204,8 +271,9 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
                   
                 
                 )
-            ),
-            
+                
+              )
+            )
           );
         }
     );
@@ -235,7 +303,7 @@ class MyDynamicHeader extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate _) => true;
 
-  // Change this value ti change the height of the expanded header
+  // Change this value to change the height of the expanded header
   @override
   double get maxExtent => this.height+120;
 
